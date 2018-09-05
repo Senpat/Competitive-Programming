@@ -16,8 +16,8 @@ class Template{
       
       StringTokenizer st = new StringTokenizer(f.readLine());
       
-      int n = Integer.parseInt(f.readLine());
-      int m = Integer.parseInt(f.readLine());
+      int n = Integer.parseInt(st.nextToken());
+      int m = Integer.parseInt(st.nextToken());
       
       
       

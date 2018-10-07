@@ -1,4 +1,5 @@
 //Slime
+//O(n^2), answer is O(n)
 import java.io.*;
 import java.util.*;
 

@@ -68,12 +68,46 @@ public class B329{
          }
       }
       
-      System.out.println(mind);
+      //System.out.println(mind);
       answer = 0;
         
       seend = new boolean[n][m];
       
-      dfs(ex,ey,0);
+      //dfs(ex,ey,0);
+      
+      //iterative bfs instead of recursize dfs
+      q = new LinkedList<State>();
+      
+      q.add(new State(ex,ey,0));
+      
+      while(!q.isEmpty()){
+         State cur = q.poll();
+         int x = cur.x;
+         int y = cur.y;
+         int level = cur.level;
+         if(seend[x][y]) continue;
+         if(level > mind) 
+            continue;
+         //System.out.println(Character.getNumericValue(board[x][y]));
+         if(level <= mind && board[x][y]!= 'E'){
+            seend[x][y] = true;
+            //System.out.println(Character.getNumericValue(board[x][y]));
+            answer+=Character.getNumericValue(board[x][y]);
+         }
+         if(x > 0 && !seend[x-1][y] && board[x-1][y] != 'E' && board[x-1][y] != 'S' && board[x-1][y] != 'T'){
+            q.add(new State(x-1,y,level+1));
+         }
+         if(x < n-1 && !seend[x+1][y] && board[x+1][y] != 'E' && board[x+1][y] != 'S' && board[x+1][y] != 'T'){
+            q.add(new State(x+1,y,level+1));
+         }
+         if(y > 0 && !seend[x][y-1] && board[x][y-1] != 'E' && board[x][y-1] != 'S' && board[x][y-1] != 'T'){
+            q.add(new State(x,y-1,level+1));
+         }
+         if(y < m-1 && !seend[x][y+1] && board[x][y+1] != 'E' && board[x][y+1] != 'S' && board[x][y+1] != 'T'){
+            q.add(new State(x,y+1,level+1));
+         }      
+      }
+      
       
       out.println(answer);
       
@@ -81,10 +115,12 @@ public class B329{
    }
    
    public static void dfs(int x, int y, int level){
-      if(level > mind) return;
+      if(level > mind) 
+         return;
+      System.out.println(Character.getNumericValue(board[x][y]));
       if(level <= mind && board[x][y]!= 'E'){
          seend[x][y] = true;
-         System.out.println(Character.getNumericValue(board[x][y]));
+         //System.out.println(Character.getNumericValue(board[x][y]));
          answer+=Character.getNumericValue(board[x][y]);
       }
       if(x > 0 && !seend[x-1][y] && board[x-1][y] != 'E' && board[x-1][y] != 'S' && board[x-1][y] != 'T'){

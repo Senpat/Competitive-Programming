@@ -38,10 +38,10 @@ class spainting{
       bad[i] = (mpow-m)%MOD;
       
       for(int k = i+1; k <= n; k++){
-         good[k] = (good[k-1]*m + bad[k-i]*(m-1))%MOD;
+         good[k] = (good[k-1]*m + bad[k-i]*(m-1)+MOD)%MOD;
          
-         mpow = (mpow*m)%MOD;
-         bad[k] = (mpow - good[k])%MOD;
+         mpow = (mpow*m+MOD)%MOD;
+         bad[k] = (mpow - good[k]+MOD)%MOD;
       }
       
       System.out.println(good[n]);

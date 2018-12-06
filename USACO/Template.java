@@ -12,6 +12,7 @@ class Template{
       BufferedReader f = new BufferedReader(new FileReader("t.in"));
       PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("t.out")));
       
+      
       int n = Integer.parseInt(f.readLine());
       
       StringTokenizer st = new StringTokenizer(f.readLine());
@@ -20,7 +21,9 @@ class Template{
       int m = Integer.parseInt(st.nextToken());
       
       
-      
+        
+        
       out.close();
    }
+      
 }

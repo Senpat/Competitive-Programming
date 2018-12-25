@@ -2,7 +2,7 @@
 TASK: dining
 LANG: JAVA
 */
-//using multi-source djikstra
+//in-contest implementation, doesnt work
 import java.io.*;
 import java.util.*;
 
@@ -43,38 +43,62 @@ class dining{
          haybales[a] = Math.max(haybales[a],b);
       }
       
-      boolean[] reach = new boolean[n+1];
+      int[] d = new int[n+1];
+      Arrays.fill(d,1000000000);
+      d[n] = 0;
+      int[] dh = new int[n+1];                           //already eaten haybale
+      Arrays.fill(dh,1000000000);
+      //dh[n] =0;
       
       PriorityQueue<State> pq = new PriorityQueue<State>();
       
-      for(int k = 0; k <= n; k++){
-         if(haybales[k] > 0){
-            pq.add(new State(-1*haybales[k],k));
-         }
-      }
+      pq.add(new State(0,n,false));
       
-      int[] d = new int[n+1];
+      boolean[] seen = new boolean[n+1];
+      boolean[] seenh = new boolean[n+1];
       
       while(!pq.isEmpty()){
          State cur = pq.poll();
          int dis = cur.dis;
          int v = cur.v;
          
-         if(dis > 0) continue;
-         reach[v] = true;
-         d[v] = dis;
+         if(cur.used){
+            if(seenh[v]) continue;
+            seenh[v] = true;
+         } else {
+            if(seen[v]) continue;
+            seen[v] = true;
+         }
+         
          for(Edge e : adj.get(v)){
             int to = e.to;
             int len = e.len;
+            //if(to == n) continue;
             
-            if(d[to] > dis + len){
-               pq.add(new State(dis+len,to));
+            if(cur.used){
+               if(dis + len < dh[to]){
+                  dh[to] = dis + len;
+                  pq.add(new State(dh[to],to,true));
+               }
+            } else {
+               //check for not eating haybale
+               if(dis + len < d[to]){
+                  d[to] = dis + len;
+                  pq.add(new State(d[to],to,false));
+               }
+               //check for eat haybale
+               if(haybales[v] > 0){
+                  if(dis + len - haybales[v] < dh[to]){
+                     dh[to] = dis + len - haybales[v];
+                     pq.add(new State(dh[to],to,true));
+                  }
+               }
             }
          }
       }
       
       for(int k = 1; k < n; k++){
-         if(reach[k]){
+         if(dh[k] <= d[k]){
             System.out.println("1");
             out.println("1");
          } else {
@@ -84,6 +108,7 @@ class dining{
       }
                
                
+               
         
       out.close();
    }
@@ -91,17 +116,19 @@ class dining{
    public static class State implements Comparable<State>{
       int dis;
       int v;
+      boolean used;
       
-      public State(int a, int b){
+      public State(int a, int b, boolean c){
          dis = a;
          v = b;
+         used = c;
       }
       
       public int compareTo(State s){
          return dis - s.dis;
       }
       public String toString(){
-         return dis + " " + v;
+         return dis + " " + v + " " + used;
       }
    }
    

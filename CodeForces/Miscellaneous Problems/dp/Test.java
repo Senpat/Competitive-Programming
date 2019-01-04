@@ -5,13 +5,13 @@ import java.util.*;
 public class Test{
    
    public static void main(String[] args)throws IOException{
-      PrintWriter out = new PrintWriter("test.out");
+      PrintWriter out = new PrintWriter(System.out);
       
-      out.println("100000 2");
-      for(int k = 0; k < 100000; k++){
-         out.print("0 ");
+      out.println("100000");
+      for(int k = 1; k <= 100000; k++){
+         out.print(k + " ");
       }
-      
+      out.println();
       
       
       out.close();

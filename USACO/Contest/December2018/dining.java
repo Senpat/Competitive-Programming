@@ -43,13 +43,39 @@ class dining{
          haybales[a] = Math.max(haybales[a],b);
       }
       
-      boolean[] reach = new boolean[n+1];
+      int[] d1 = new int[n+1];
+      Arrays.fill(d1,Integer.MAX_VALUE);
+      d1[n] = 0;
       
       PriorityQueue<State> pq = new PriorityQueue<State>();
       
+      pq.add(new State(0,n));
+      
+      while(!pq.isEmpty()){
+         State cur = pq.poll();
+         int dis = cur.dis;
+         int v = cur.v;
+         
+         for(Edge e : adj.get(v)){
+            int to = e.to;
+            int len = e.len;
+            
+            if(d1[v] + len < d1[to]){
+               d1[to] = d1[v] + len;
+               pq.add(new State(d1[to],to));
+            }
+         }
+      }
+      
+      
+      
+      boolean[] reach = new boolean[n+1];
+      
+      pq = new PriorityQueue<State>();
+      
       for(int k = 0; k <= n; k++){
          if(haybales[k] > 0){
-            pq.add(new State(-1*haybales[k],k));
+            pq.add(new State(-1*(haybales[k]),k));
          }
       }
       
@@ -65,9 +91,10 @@ class dining{
          d[v] = dis;
          for(Edge e : adj.get(v)){
             int to = e.to;
-            int len = e.len;
+            int len = e.len + d1[v] - d1[to];
             
             if(d[to] > dis + len){
+               d[to] = dis+len;
                pq.add(new State(dis+len,to));
             }
          }

@@ -1,4 +1,5 @@
 //make sure to make new file!
+//AC, strings intead of hashing
 import java.io.*;
 import java.util.*;
 

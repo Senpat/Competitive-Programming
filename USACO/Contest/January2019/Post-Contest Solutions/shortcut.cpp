@@ -18,7 +18,7 @@ struct CompareState{
 
 struct Edge{
    int to;                                //other vertex
-   int w;                                 //weight
+   long long w;                                 //weight
 };
 
 

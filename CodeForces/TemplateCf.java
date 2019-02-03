@@ -15,9 +15,13 @@ public class TemplateCf{
       int n = Integer.parseInt(st.nextToken());
       int m = Integer.parseInt(st.nextToken());
       
+
+      
+      
       
       
       out.close();
    }
    
+      
 }

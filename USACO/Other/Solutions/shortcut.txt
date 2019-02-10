@@ -1,0 +1,282 @@
+In order to solve this problem, we must compute two things for every vertex: the shortest path to the barn, and the number of cows that pass through that vertex.
+
+Using Djikstra’s algorithm, which computes the minimum path from each field to the barn, will help with both tasks. However, we must also store the parents so that we can backtrack to find the fields on the path to the barn. We also need to check that we are finding the lexicographically smallest shortest paths whenever the current lengths of the paths are equal.
+
+After running Djikstra’s algorithm, we can backtrack from every vertex to record how many cows pass through every field. This will run in $O(N^{2}).$
+
+If you use a dfs on the shortest path tree (the tree generated from Djikstra’s algorithm) you can accomplish that task in $O(N).$ However, the $O(N^{2})$ method fits comfortably within the time limit.
+
+Finally, we compute how much distance adding a road from the barn to the vertex saves, which is $\max_{2 \leq i \leq N} c_i \cdot (d_i - T),$ where $c_i$ is the number of cows that passes through field $i$ and $d_i$ is the shortest path from field $i$ to the barn.
+
+The Djikstra’s algorithm is $O(M\logN)$ and backtracking is $O(N^{2})$, for a total efficiency of $O(M\log{N} + N^{2}),$ which is fast enough to fit in the time limit.
+
+
+Here is my solution in C++:
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define MAXN 10005
+
+struct State{
+   int v;                                 //vertex
+   long long w;                           //current distance
+};
+//custom comparator for State
+struct CompareState{
+   bool operator()(State s1, State s2){
+      return s1.w > s2.w;
+   }
+};
+
+struct Edge{
+   int to;                                //other vertex
+   int w;                                 //weight
+};
+
+
+int par[MAXN];
+long long c[MAXN];
+long long djik[MAXN];                           //shortest distance from vertex 1
+long long nums[MAXN];                           //number of cows that pass through that vertex
+
+int main(){
+   ios::sync_with_stdio(false);
+   cin.tie(0);
+   
+   ifstream fin ("shortcut.in");
+   ofstream fout ("shortcut.out");
+   
+   int n,m;
+   long t;
+   fin >> n >> m >> t;
+   
+   for(int k = 1; k <= n; k++){
+      fin >> c[k];
+   }
+   
+   //build edge list for every vertex
+   vector<vector<Edge>> adj(n+1);
+   
+   for(int k = 0; k < m; k++){
+      int a,b;
+      long w;
+      
+      fin >> a >> b >> w;
+      
+      Edge ea {b,w};
+      Edge eb {a,w};
+      
+      adj[a].push_back(ea);
+      adj[b].push_back(eb);
+   }
+   
+   //basic djikstra's algorithm while storing parents
+   fill(begin(djik),end(djik),LONG_MAX);
+   djik[1] = 0;
+   
+   fill(begin(par),end(par),-1);
+   
+   priority_queue<State,vector<State>,CompareState> pq;
+   State s {1,0};
+   pq.push(s);
+   
+   unordered_set<int> seen;
+   
+   seen.insert(1);
+   
+   while(!pq.empty()){
+      State cur = pq.top();
+      pq.pop();
+      
+      int u = cur.v;
+      
+      seen.insert(u);
+      
+      for(Edge e : adj[u]){
+         int v = e.to;
+         if(seen.find(v) != seen.end()) continue;
+         long long newdis = djik[u] + e.w;
+         if(newdis < djik[v]){
+            djik[v] = newdis;
+            par[v] = u;
+            State next {v,newdis};
+            pq.push(next);
+         } else if(newdis == djik[v]){                      //ensures lexicographically shortest path
+            if(u < par[v]){
+               djik[v] = newdis;
+               par[v] = u;
+               State next {v,newdis};
+               pq.push(next);
+            }
+         }
+      }
+   }
+   
+   for(int k = 1; k <= n; k++){
+      //backtrack to fill nums
+      int i = k;
+      while(i != -1){
+         nums[i] += c[k];
+         i = par[i];
+      }
+   }
+   
+   long long answer = 0;
+   for(int k = 1; k <= n; k++){
+      //nums[k] * (djik[k] - t) is the distance saved
+      answer = max(answer,nums[k]*(djik[k]-t));
+   }
+   
+   cout << answer << endl;
+   fout << answer << endl;
+      
+      
+   
+   return 0;
+}
+
+
+Here is the exact same solution in Java:
+/*
+TASK: shortcut
+LANG: JAVA
+*/
+
+import java.io.*;
+import java.util.*;
+
+class shortcut{
+   
+   public static int[] par;
+   
+   public static void main(String[] args) throws IOException{
+      BufferedReader f = new BufferedReader(new FileReader("shortcut.in"));
+      PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("shortcut.out")));
+      
+      
+      StringTokenizer st = new StringTokenizer(f.readLine());
+      
+      int n = Integer.parseInt(st.nextToken());
+      int m = Integer.parseInt(st.nextToken());
+      int t = Integer.parseInt(st.nextToken());
+      
+      long[] c = new long[n+1];
+      
+      st = new StringTokenizer(f.readLine());
+      
+      for(int k = 1; k <= n; k++){
+         c[k] = Long.parseLong(st.nextToken());
+      }
+      
+      //build edge list for every vertex
+      ArrayList<ArrayList<Edge>> adj = new ArrayList<ArrayList<Edge>>(n+1);
+      
+      for(int k = 0; k <= n; k++) adj.add(new ArrayList<Edge>());
+      
+      for(int k = 0; k < m; k++){
+         st = new StringTokenizer(f.readLine());
+      
+         int a = Integer.parseInt(st.nextToken());
+         int b = Integer.parseInt(st.nextToken());
+         long w = Long.parseLong(st.nextToken());
+         
+         adj.get(a).add(new Edge(b,w));
+         adj.get(b).add(new Edge(a,w));
+      }
+      
+      
+      //basic djikstra's algorithm while storing parents
+      long[] djik = new long[n+1];
+      par = new int[n+1];
+      
+      Arrays.fill(djik,Long.MAX_VALUE);
+      djik[1] = 0L;  
+      Arrays.fill(par,-1);
+      
+      PriorityQueue<State> pq = new PriorityQueue<State>();
+      
+      pq.add(new State(1,0));
+      
+      HashSet<Integer> seen = new HashSet<Integer>();
+      
+      seen.add(1);
+      
+      while(!pq.isEmpty()){
+         State cur = pq.poll();
+         int u = cur.v;
+         
+         seen.add(u);
+         
+         for(Edge e : adj.get(u)){
+            int v = e.to;
+            if(seen.contains(v)) continue;
+            long newdis = djik[u] + e.w;
+            if(newdis < djik[v]){
+               djik[v] = newdis;
+               par[v] = u;
+               pq.add(new State(v,newdis));
+            } else if(newdis == djik[v]){                            //ensures lexicographically shortest path
+               if(u < par[v]){
+                  djik[v] = newdis;
+                  par[v] = u;
+                  pq.add(new State(v,newdis));
+               }
+            }
+         }
+      }
+      
+      
+      long[] nums = new long[n+1];                  //number of cows that pass through that vertex
+      for(int k = 1; k <= n; k++){
+         //backtrack to fill nums
+         int i = k;
+         while(i != -1){
+            nums[i] += c[k];
+            i = par[i];
+         }
+      }
+      
+      long max = 0L;
+      for(int k = 1; k <= n; k++){
+         //nums[k] * (djik[k] - t) is the distance saved
+         max = Math.max(max,nums[k]*(djik[k]-t));
+      }
+      
+      System.out.println(max);
+      out.println(max);
+      
+      
+      
+      
+      
+      
+      
+      out.close();
+   }
+   
+   public static class State implements Comparable<State>{
+      int v;                  //vertex
+      long w;                 //current distance
+      public State(int a, long b){
+         v = a;
+         w = b;
+      }
+      public int compareTo(State s){
+         if(w > s.w) return 1;
+         if(w < s.w) return -1;
+         return 0;
+         
+      }
+   }
+   
+   public static class Edge{
+      int to;                 //other edge
+      long w;                 //weight
+      public Edge(int a, long b){
+         to = a;
+         w = b;
+      }
+   }
+      
+}

@@ -1,0 +1,229 @@
+In order to solve this problem, we must make a series of observations. The first is that it doesn’t matter what order the rhyme classes are given - what matter is the frequencies of each rhyme class. Once we compute the frequencies of each rhyme class $f_i$ and the number of ways to end a line with a rhyme $w_k,$ the number of poems that bessie can write for that rhyme class is $$\sum_{k=1}^{\text{num}_{\text{rhymes}}} w_k^{f_i}.$$ The final answer is the answers for all of the rhyme classes multiplied together.
+
+For instance, there are $8$ ways to end in rhyme $1$ and $4$ ways to end in rhyme $2$. There are $2$ of rhyme class $A$ and $1$ of rhyme class $B$. Thus, the answer is $$(8^{2} + 4^{2}) \cdot (8^{1} + 4^{1}) = 960.$$
+
+Now, we need to find the number of ways to form a line that ends in each rhyme. To do this, we use dynamic programming. Let $dp[i]$ be the number of ways to form a line of length $i.$ The transition between states is, for the number of syllables in every word $w_s,$ is: $$dp[w_s + i] \mathrel{+}= dp[i].$$
+
+(Don’t forget to modulo 1,000,000,007 at every step!)
+
+Whenever $w_s + i == K,$ we increment $r[w_r],$ where $w_r$ is the rhyme of that word and $r$ is an array storing the number of ways to form a line that ends in each rhyme.
+
+Finally, to implement the math formula that we discussed in the first paragraph, we need to use an efficient exponentiation algorithm, which can compute $E^{P} \mod 1000000007$ in $O(\log{P}).$ Using std::pow() or Math.pow() will not work because of the possibility of large numbers. 
+
+The efficiency of the dynamic programming is $O(NK)$ and the exponentiation is $O(NM\log{M} )$ for the worst case, which fits inside the time limit.
+
+
+C++ Code:
+#include <bits/stdc++.h>
+
+#define MAXN 5005
+#define MAXM 100005
+#define MAXS 5005
+
+
+using namespace std;
+
+long long MOD = 1000000007;
+
+//fast exponentiation - for more information, see https://www.geeksforgeeks.org/exponential-squaring-fast-modulo-multiplication/
+long long exp(int base, int power){
+   if(power == 0) return 1;
+   if(power == 1) return (base + MOD) % MOD;
+   long long ans = exp(base,power/2);
+   ans = (ans * ans + MOD) % MOD;
+   if(power%2 == 1) ans = (ans*base + MOD) % MOD;
+   return (ans + MOD) % MOD;
+}
+
+int n,m,s;
+long long dp[MAXS];                       //dp[x] = the number of ways to make a line with x syllables.
+long long r[MAXN];                        //r[x] = the number of ways to form a full line that ends with rhyme scheme x
+
+unordered_map<char,int> umap;
+
+int main(){
+   ios::sync_with_stdio(false);
+   cin.tie(0);
+   
+   ifstream fin ("poetry.in");
+   ofstream fout ("poetry.out");
+   
+   int n,m,s;
+   fin >> n >> m >> s;
+   
+   pair<int,int> words[n];          //first is syllables, second is rhyme
+   
+   for(int k = 0; k < n; k++){
+      int a,b;
+      fin >> a >> b;
+      words[k] = make_pair(a,b);
+   }
+   
+   //Calculate frequencies of every rhyme (Order of rhymes doesn't matter)
+   for(int k = 0; k < m; k++){
+      char c;
+      fin >> c;
+      if(umap.find(c) == umap.end()){
+         umap[c] = 1;
+      } else{
+         umap[c]++;
+      }
+   }
+   
+   
+   dp[0] = 1;
+   
+   for(int k = 0; k <= s; k++){
+      
+      for(int j = 0; j < n; j++){
+         if(words[j].first + k > s) continue;
+         if(words[j].first + k == s){
+            r[words[j].second] = (r[words[j].second] + dp[k] + MOD) % MOD;                      //if you are at the end of the line, update r
+         } else {
+            dp[words[j].first + k] = (dp[words[j].first + k] + dp[k] + MOD) % MOD;              //knapsack dp
+         }
+      }
+   }
+   
+   long long answer = 1;
+   for(auto a : umap){
+      //use counting/probability to calculate the answer. For every grouping of a rhyme, multiple the answer by r[1]^freq, r[2]^freq, etc.
+      //For instance, the answer for the sample case is (8^2 + 4^2) * (8^1 + 4^1). r[1] = 8 and r[2] = 4, and the are 2 As and 1 B.
+      
+   
+      int freq = a.second;
+      long long sum = 0;
+      for(int k = 0; k <= n; k++){
+         if(r[k] == 0) continue;
+         sum = (sum + exp(r[k],freq) + MOD) % MOD;
+      }
+      answer = (answer * sum + MOD) % MOD;
+   }
+   
+   cout << answer;
+   fout << answer;
+         
+   
+   
+   
+   return 0;
+}
+
+
+Same solution but in Java:
+/*
+TASK: poetry
+LANG: JAVA
+*/
+
+import java.io.*;
+import java.util.*;
+
+class poetry{
+   
+   public static long MOD = 1000000007L;
+   
+   public static void main(String[] args) throws IOException{
+      BufferedReader f = new BufferedReader(new FileReader("poetry.in"));
+      PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("poetry.out")));
+      
+      StringTokenizer st = new StringTokenizer(f.readLine());
+      
+      int n = Integer.parseInt(st.nextToken());
+      int m = Integer.parseInt(st.nextToken());
+      int s = Integer.parseInt(st.nextToken());
+      
+      Word[] words = new Word[n];
+      
+      for(int k = 0; k < n; k++){
+         
+         st = new StringTokenizer(f.readLine());
+      
+         int sy = Integer.parseInt(st.nextToken());
+         int rh = Integer.parseInt(st.nextToken());
+      
+         words[k] = new Word(sy,rh);
+      }
+      
+      
+      //Calculate frequencies of every rhyme (Order of rhymes doesn't matter)
+      HashMap<Character,Integer> hmap = new HashMap<Character,Integer>();
+      
+      
+      for(int k = 0; k < m; k++){
+         char c = f.readLine().charAt(0);
+         if(hmap.containsKey(c)){
+            hmap.put(c,hmap.get(c)+1);
+         } else {
+            hmap.put(c,1);
+         }
+      }
+      
+      //dp[x] = the number of ways to make a line with x syllables.
+      long[] dp = new long[s+1];
+      dp[0] = 1L;
+      
+      //r[x] = the number of ways to form a full line that ends with rhyme scheme x
+      long[] r = new long[n+1];
+      
+      for(int k = 0; k <= s; k++){
+         
+         for(int j = 0; j < n; j++){
+            if(words[j].s + k > s) continue;
+            if(words[j].s + k == s){
+               r[words[j].r] = (r[words[j].r] + dp[k] + MOD) % MOD;                 //if you are at the end of the line, update r
+            }
+            dp[words[j].s + k] = (dp[words[j].s + k] + dp[k] + MOD) % MOD;          //knapsack dp
+         }
+      }      
+      
+      
+      long answer = 1L;
+      for(char c : hmap.keySet()){
+         //use counting/probability to calculate the answer. For every grouping of a rhyme, multiple the answer by r[1]^freq, r[2]^freq, etc.
+         //For instance, the answer for the sample case is (8^2 + 4^2) * (8^1 + 4^1). r[1] = 8 and r[2] = 4, and the are 2 As and 1 B.
+      
+         int freq = hmap.get(c);
+         long sum = 0L;
+         for(int k = 0; k < r.length; k++){
+            if(r[k] == 0) continue;
+            sum = (sum + exp(r[k],freq) + MOD) % MOD;
+         }
+      
+         answer = (answer * sum + MOD) % MOD;
+      }
+      
+      System.out.println(answer);
+      out.println(answer);
+      
+         
+      
+      
+      
+        
+      out.close();
+   }
+   
+   
+   //fast exponentiation - for more information, see https://www.geeksforgeeks.org/exponential-squaring-fast-modulo-multiplication/
+   public static long exp(long base, int power){
+      if(power == 0) return 1;
+      if(power == 1) return (base + MOD) % MOD;
+      long ans = exp(base,power/2);
+      ans = (ans*ans + MOD) % MOD;
+      if(power%2 == 1) ans = (ans*base + MOD) % MOD;
+      return (ans + MOD) % MOD;
+   }
+   
+   public static class Word{
+      int s;                     //syllables
+      int r;                     //rhyme
+      public Word(int a, int b){
+         s = a;
+         r = b;
+      }
+   }
+         
+      
+}
+

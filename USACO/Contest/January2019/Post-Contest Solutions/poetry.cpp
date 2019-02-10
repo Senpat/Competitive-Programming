@@ -30,6 +30,8 @@ int main(){
    ios::sync_with_stdio(false);
    cin.tie(0);
    
+   cout << LONG_MAX << " " << LLONG_MAX << endl;
+   
    ifstream fin ("poetry.in");
    ofstream fout ("poetry.out");
    

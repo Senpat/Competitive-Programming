@@ -64,11 +64,13 @@ int main(){
    
    //fill bits
    for(int k = 0; k < n; k++){
-      if(s[k] == '0') continue;
+      if(s[k] == '0') 
+         continue;
       if((n-k)%2 == 1){
          update2(k+1,1);
          updateodd(k+1,1);
-      } else {
+      } 
+      else {
          update2(k+1,2);
          updateeven(k+1,1);
       }
@@ -81,25 +83,40 @@ int main(){
       if(w == 0){
          int i;
          cin >> i;
-         if(s[i] == '1') continue;
+         if(s[i] == '1') 
+            continue;
          s[i] = '1';
          if((n-i)%2 == 1){
             update2(i+1,1);
             updateodd(i+1,1);
-         } else {
+         } 
+         else {
             update2(i+1,2);
             updateeven(i+1,1);
          }
-      } else {
+      } 
+      else {
          int l,r,ans;
          cin >> l >> r;
          ans = psum2(r+1)-psum2(l);
+         if(ans < 0) {
+            cout << k << " " << s << " " << l << " " << r << endl;
+            return 0;
+         }
          //cout << k << " " << psum2(r+1) << " " << psum2(l) << endl;
          if((n-r) % 2 == 0){
             ans += psumodd(r+1)-psumodd(l) - (psumeven(r+1)-psumeven(l));
+            if(ans < 0) {
+               cout << k << " " << s << " " << l << " " << r << endl;
+               return 0;
+            }
             //cout << k << " " << psumodd(r+1)-psumodd(l) << " " << psumeven(r+1)-psumeven(l) << endl;
          }
-         cout << (ans+3)%3 << endl;
+         if(ans < 0) {
+            cout << k << " " << s << " " << l << " " << r << endl;
+            return 0;
+         }
+         cout << (ans + 3)%3 << endl;
       }
    }
    /*

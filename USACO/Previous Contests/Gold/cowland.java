@@ -140,7 +140,8 @@ class cowland{
          a = temp;
       }
       for(int d = MAX_D-1; d >= 0; d--) {
-         if(depth[a] - (1<<d) >= depth[b]) {
+         //if(depth[a] - (1<<d) >= depth[b]) {
+         if (((depth[a]-depth[b]) & (1<<d)) != 0){
             a = lca[a][d];
          }
       }

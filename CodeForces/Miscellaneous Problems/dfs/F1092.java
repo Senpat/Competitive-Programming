@@ -54,6 +54,8 @@ public class F1092{
       max = 0L;
       dfs(1,-1);
       
+      //for(int k = 1; k <= n; k++) System.out.print(answer[k] + " ");
+      
       out.println(max);
       
       

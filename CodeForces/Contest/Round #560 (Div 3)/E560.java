@@ -20,7 +20,7 @@ public class E560{
       StringTokenizer st = new StringTokenizer(f.readLine());
       for(int k = 0; k < n; k++){
          a[k] = Long.parseLong(st.nextToken());
-         an[k] = new Num(a[k],k);
+         an[k] = new Num(a[k]*(k+1)*(n-k),k);
       }
       
       Arrays.sort(an);
@@ -36,8 +36,8 @@ public class E560{
          long cursum = 1;
          cursum = (cursum * an[k].n     + MOD)%MOD;
          cursum = (cursum * b[n-k-1]    + MOD)%MOD;
-         cursum = (cursum * (n-an[k].i) + MOD)%MOD;
-         cursum = (cursum * (an[k].i+1) + MOD)%MOD;
+         //cursum = (cursum * (n-an[k].i) + MOD)%MOD;
+         //cursum = (cursum * (an[k].i+1) + MOD)%MOD;
          answer = (answer + cursum + MOD) % MOD;
       }
       

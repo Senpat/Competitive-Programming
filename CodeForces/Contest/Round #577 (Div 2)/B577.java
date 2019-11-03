@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class B577{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
@@ -12,11 +12,21 @@ public class TemplateCf{
       
       StringTokenizer st = new StringTokenizer(f.readLine());
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
-      
+      long[] array = new long[n];
+      long sum = 0;
+      long last = 0;
+      for(int k = 0; k < n; k++){
+         array[k] = Long.parseLong(st.nextToken());
+         sum += array[k];
+         last = Math.max(last,array[k]);
+      }
+      sum -= last;
+      if(sum < last || (sum-last)%2 == 1){
+         out.println("NO");
+      } else {
+         out.println("YES");
+      }
 
-      
       
       
       

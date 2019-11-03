@@ -2,21 +2,23 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class A581{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
       PrintWriter out = new PrintWriter(System.out);
       
-      int n = Integer.parseInt(f.readLine());
+      String s = f.readLine();
       
-      StringTokenizer st = new StringTokenizer(f.readLine());
+      int n = (s.length())/2;
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
+      if(s.length()%2 == 1 && s.substring(1).contains("1")){
+         n++;
+      }
+      
+      out.println(n);
       
 
-      
       
       
       

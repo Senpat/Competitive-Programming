@@ -1,27 +1,36 @@
 //make sure to make new file!
 import java.io.*;
 import java.util.*;
-
-public class TemplateCf{
+//wrong, too slow
+public class A36{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
       PrintWriter out = new PrintWriter(System.out);
       
-      int n = Integer.parseInt(f.readLine());
+      long n = Long.parseLong(f.readLine());
       
-      StringTokenizer st = new StringTokenizer(f.readLine());
+      long a = find(n);
+      long b = n/a;
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
+      out.println("0 0 0 " + a + " " + b + " 0");
       
 
       
       
       
       
-      
       out.close();
+   }
+   
+   public static long find(long n){
+      long sqrt = (long)Math.sqrt(n);
+      
+      while(n%sqrt!=0){
+         sqrt--;
+      }
+      
+      return sqrt;
    }
    
       

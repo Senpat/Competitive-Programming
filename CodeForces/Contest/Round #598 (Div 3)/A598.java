@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateQueryCf{
+public class A598{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
@@ -11,14 +11,18 @@ public class TemplateQueryCf{
       int t = Integer.parseInt(f.readLine());
       
       for(int q = 1; q <= t; q++){
-
-         int n = Integer.parseInt(f.readLine());
       
          StringTokenizer st = new StringTokenizer(f.readLine());
       
-         int n = Integer.parseInt(st.nextToken());
-         int m = Integer.parseInt(st.nextToken());
-      
+         long a = Long.parseLong(st.nextToken());
+         long b = Long.parseLong(st.nextToken());
+         long n = Long.parseLong(st.nextToken());
+         long s = Long.parseLong(st.nextToken());
+         
+         String answer = "NO";
+         if(n*a <= s){ if(b >= s-n*a) answer = "YES";
+         } else {if(s-s/n*n <= b) answer = "YES";}
+         out.println(answer);
 
       }
       

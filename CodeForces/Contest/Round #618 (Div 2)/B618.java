@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateQueryCf{
+public class B618{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
@@ -16,10 +16,18 @@ public class TemplateQueryCf{
       
          StringTokenizer st = new StringTokenizer(f.readLine());
       
-         int n = Integer.parseInt(st.nextToken());
-         int m = Integer.parseInt(st.nextToken());
-      
-
+         Integer[] array = new Integer[2*n];
+         
+         for(int k = 0; k < 2*n; k++){
+            array[k] = Integer.parseInt(st.nextToken());
+         }
+         
+         Arrays.sort(array);
+         
+         int answer;
+            answer = array[n]-array[n-1];
+         
+         out.println(answer);
       }
       
       

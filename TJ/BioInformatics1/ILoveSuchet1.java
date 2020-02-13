@@ -2,25 +2,28 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateQueryCf{
+public class ILoveSuchet1{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
       PrintWriter out = new PrintWriter(System.out);
       
-      int t = Integer.parseInt(f.readLine());
+      int n = Integer.parseInt(f.readLine());
       
-      for(int q = 1; q <= t; q++){
-
-         int n = Integer.parseInt(f.readLine());
+      String suchet = f.readLine();
+      String iscool = f.readLine();
       
-         StringTokenizer st = new StringTokenizer(f.readLine());
-      
-         int n = Integer.parseInt(st.nextToken());
-         int m = Integer.parseInt(st.nextToken());
-      
-
+      int suchetisawesome = 0;
+      for(int k = 0; k < n; k++){
+         if(suchet.charAt(k) == iscool.charAt(k)){
+            suchetisawesome++;
+          }
       }
+      
+      out.println(suchetisawesome);
+      
+
+      
       
       
       

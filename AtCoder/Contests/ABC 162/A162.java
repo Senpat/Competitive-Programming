@@ -2,22 +2,22 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class A162{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
       PrintWriter out = new PrintWriter(System.out);
       
-      int n = Integer.parseInt(f.readLine());
+      String s = f.readLine();
       
-      StringTokenizer st = new StringTokenizer(f.readLine());
+      if(s.charAt(0) == '7' || s.charAt(1) == '7'|| s.charAt(2)=='7'){
+         out.println("Yes");
+      } else {
+         out.println("No");
+      }
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
       
-      
-      
-      
+
       
       
       

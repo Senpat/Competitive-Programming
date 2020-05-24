@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class C164{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
@@ -10,10 +10,13 @@ public class TemplateCf{
       
       int n = Integer.parseInt(f.readLine());
       
-      StringTokenizer st = new StringTokenizer(f.readLine());
+      HashSet<String> hs = new HashSet<String>();
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
+      for(int k = 0; k < n; k++){
+         hs.add(f.readLine());
+      }
+      
+      out.println(hs.size());
       
       
       

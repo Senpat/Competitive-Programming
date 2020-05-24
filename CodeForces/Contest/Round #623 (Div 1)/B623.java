@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class B623{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
@@ -17,7 +17,7 @@ public class TemplateCf{
       
       
       
-      
+
       
       
       

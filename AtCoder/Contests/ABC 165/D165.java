@@ -2,18 +2,23 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class D165{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
       PrintWriter out = new PrintWriter(System.out);
       
-      int n = Integer.parseInt(f.readLine());
-      
       StringTokenizer st = new StringTokenizer(f.readLine());
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
+      long a = Long.parseLong(st.nextToken());
+      long b = Long.parseLong(st.nextToken());
+      long n = Long.parseLong(st.nextToken());
+      
+      long value = Math.min(b-1,n);
+      
+      long answer = (a*value)/b - a * (value/b);
+      
+      out.println(answer);
       
       
       

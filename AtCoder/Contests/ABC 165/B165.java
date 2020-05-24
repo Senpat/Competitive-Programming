@@ -2,19 +2,22 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class B165{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
       PrintWriter out = new PrintWriter(System.out);
       
-      int n = Integer.parseInt(f.readLine());
+      long n = Long.parseLong(f.readLine());
       
-      StringTokenizer st = new StringTokenizer(f.readLine());
+      long cur = 100;
+      int i = 0;
+      while(cur < n){
+         i++;
+         cur = cur+cur/100;
+      }
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
-      
+      out.println(i);
       
       
       

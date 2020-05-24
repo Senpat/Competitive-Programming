@@ -2,19 +2,20 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class A167{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
       PrintWriter out = new PrintWriter(System.out);
       
-      int n = Integer.parseInt(f.readLine());
+      String s1 = f.readLine();
+      String s2 = f.readLine();
       
-      StringTokenizer st = new StringTokenizer(f.readLine());
-      
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
-      
+      if(s2.length() == s1.length()+1 && s2.substring(0,s2.length()-1).equals(s1)){
+         out.println("Yes");
+      } else {
+         out.println("No");
+      }
       
       
       

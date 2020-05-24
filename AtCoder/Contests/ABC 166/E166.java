@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class E166{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
@@ -12,8 +12,26 @@ public class TemplateCf{
       
       StringTokenizer st = new StringTokenizer(f.readLine());
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
+      int[] array = new int[n];
+      long[] zfreq = new long[n];
+      for(int k = 0; k < n; k++){
+         array[k] = Integer.parseInt(st.nextToken());
+         if(k-array[k] > 0){
+            zfreq[k-array[k]]++;
+         }
+      }
+      
+      long answer = 0L;
+      
+      for(int k = 0; k < n; k++){
+         int z = k+array[k];
+         if(z < n){
+            answer += zfreq[z];
+         }
+      }
+      
+      out.println(answer);
+      
       
       
       

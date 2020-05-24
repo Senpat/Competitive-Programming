@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class BG7{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
@@ -12,12 +12,27 @@ public class TemplateCf{
       
       StringTokenizer st = new StringTokenizer(f.readLine());
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
+      int[] array = new int[n];
+      for(int k = 0; k < n; k++){
+         array[k] = Integer.parseInt(st.nextToken());
+      }
+      
+      int[] answer = new int[n];
+      answer[0] = array[0];
+      
+      int max = answer[0];
+      
+      for(int k = 1; k < n; k++){
+         answer[k] = array[k]+max;
+         max = Math.max(max,answer[k]);
+      }
+      
+      for(int k = 0; k < n; k++){
+         out.print(answer[k] + " ");
+      }
       
       
-      
-      
+
       
       
       

@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class A168{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
@@ -10,12 +10,15 @@ public class TemplateCf{
       
       int n = Integer.parseInt(f.readLine());
       
-      StringTokenizer st = new StringTokenizer(f.readLine());
+      int i = n%10;
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
-      
-      
+      if(i == 3){
+         out.println("bon");
+      } else if(i == 0 || i == 1 || i == 6 || i == 8){
+         out.println("pon");
+      } else {
+         out.println("hon");
+      }
       
       
       

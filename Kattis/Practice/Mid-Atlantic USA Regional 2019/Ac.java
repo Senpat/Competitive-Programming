@@ -2,7 +2,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TemplateCf{
+public class Ac{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
@@ -10,10 +10,23 @@ public class TemplateCf{
       
       int n = Integer.parseInt(f.readLine());
       
-      StringTokenizer st = new StringTokenizer(f.readLine());
+      int[] array = new int[n];
+      int[] indexof = new int[101];
+      for(int k = 0; k < n; k++){
+         array[k] = Integer.parseInt(f.readLine());
+         indexof[array[k]] = k;
+      }
       
-      int n = Integer.parseInt(st.nextToken());
-      int m = Integer.parseInt(st.nextToken());
+      Arrays.sort(array);
+      
+      int answer = 1;
+     
+      for(int k = 1; k < n; k++){
+         if(indexof[array[k]] < indexof[array[k-1]]) answer++;
+      }
+      
+      out.println(answer);
+      
       
       
       

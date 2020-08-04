@@ -1,0 +1,11 @@
+After doing A, B1, B2, I tried C for a while and didn't get it. I skimmed D1 and D2 but they looked unfun so I skipped to E. E looked interesting, so I spent a while thinking about E. I ended up going back to
+
+A (LCP): 8/10 Maybe could pass as a 2B, but otherwise pretty good problem.
+B1 (Love is Dead): 5/10 I think this is easier than normal B, so I think it can be removed
+B2: 6/10
+C (Koality): 6/10 This was harder than normal 2C for me. Maybe leave it as D1A but put another problem before it for D2. Decently interesting.
+D1 (String Transformation): Didn't solve, but looks unfun.
+D2: Didn't solve, but looks unfun.
+E (Strange Operation): Seems pretty interesting, but I didn't get it
+
+I will update my feedback after I think about the problems more/read solutions.

@@ -17,3 +17,4 @@ Repository that contains all of my USACO and Codeforces practice and contest pro
 |-------|--------------|
 |1600     | 2018 Jan  |
 |1900     | 2020 Feb  |
+|2100     | 2020 Aug  |

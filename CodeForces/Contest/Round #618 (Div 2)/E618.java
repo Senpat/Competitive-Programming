@@ -1,7 +1,7 @@
 //make sure to make new file!
 import java.io.*;
 import java.util.*;
-
+//in contest, wrong
 public class E618{
    
    public static void main(String[] args)throws IOException{

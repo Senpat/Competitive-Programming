@@ -28,7 +28,7 @@ public class H{
          indexofw[array[k].w] = k;
       }
       
-      int LOG = 29;
+      int LOG = 30;
       ArrayList<ArrayList<HashSet<Integer>>> adj = new ArrayList<ArrayList<HashSet<Integer>>>();            //(n+1)*29 matrix of hashsets. weights of numbers you can reach given width and center (index) of array
       //2^(2nd dimension) is total width of range. For 0, it's +/- 0.5, so you can only see itself
       
@@ -47,7 +47,7 @@ public class H{
          int dist = (1 << (i-1));
          //full range is +/- dist inclusive
          
-         PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(10,Collections.reverseOrder());
          //set initial
          int r = 0;
          while(r <= n && array[r].x <= array[0].x+dist){
@@ -56,31 +56,31 @@ public class H{
          }
          
          ArrayList<Integer> added = new ArrayList<Integer>();
-         while(!pq.isEmpty() && adj.get(0).get(i).size() < m){
+         while(!pq.isEmpty() && adj.get(array[0].w).get(i).size() < m){
             int w = pq.poll();
             if(array[indexofw[w]].x < array[0].x-dist) 
                continue;
             if(array[indexofw[w]].x != 0){
-               adj.get(0).get(i).add(w);
+               adj.get(array[0].w).get(i).add(w);
             }
             added.add(w);
          }
          
          for(int num : added) pq.add(num);
          
-         for(int k = 1; k < n; k++){
+         for(int k = 1; k <= n; k++){
             while(r <= n && array[r].x <= array[k].x+dist){
                pq.add(array[r].w);
                r++;
             }
             
             added = new ArrayList<Integer>();
-            while(!pq.isEmpty() && adj.get(k).get(i).size() < m){
+            while(!pq.isEmpty() && adj.get(array[k].w).get(i).size() < m){
                int w = pq.poll();
                if(array[indexofw[w]].x < array[k].x-dist) 
                   continue;
                if(array[indexofw[w]].x != 0){
-                  adj.get(k).get(i).add(w);
+                  adj.get(array[k].w).get(i).add(w);
                }
                added.add(w);
             }

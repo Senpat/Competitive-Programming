@@ -76,12 +76,14 @@ public class D121{
                //if(sum == 0) continue; 
                //if(sum == n) break;
                
-               if(posleft.size() >= 1 && minpow[sum] == minpow[posleft.get(posleft.size()-1)]){
+               if(posleft.size() >= 1 && minpow[sum] == prevminpow){
                   posleft.set(posleft.size()-1,k);
-                  prevminpow = minpow[sum];
                } else {
                   posleft.add(k);
                }
+               
+               
+               prevminpow = minpow[sum];
             }
             
             sum = 0;

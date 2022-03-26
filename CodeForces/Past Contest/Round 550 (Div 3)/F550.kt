@@ -1,7 +1,7 @@
 import java.io.*
 import java.util.*
 import kotlin.math.*
-
+//misread problem, thought length > 2 instead of length >= 2. 3-coloring is impossible 
 fun main(){
 	val f = BufferedReader(InputStreamReader(System.`in`))
 

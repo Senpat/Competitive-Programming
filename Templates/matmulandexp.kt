@@ -11,7 +11,7 @@ fun main(){
 		for(k in 0 until n){
 			for(j in 0 until n){
 				for(h in 0 until n){
-					ret[k][j] = (ret[k][j] + a[h][k]*b[j][h] + MOD)%MOD
+					ret[k][j] = (ret[k][j] + a[h][k]*b[j][h] + MOD)%MOD      //MIGHT BE WRONG LOOK AT JAVA VERSION
 				}
 			}
 		}

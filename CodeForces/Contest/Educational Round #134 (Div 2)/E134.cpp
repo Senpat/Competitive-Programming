@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-
+//in contest attempt, naive kmp
 using namespace std;
 
 char get(int x, int n, string& s, string& t){

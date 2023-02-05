@@ -1,31 +1,85 @@
-//make sure to make new file!
+//Delivius Dessert
 import java.io.*;
 import java.util.*;
 
-public class suffixarraylcp{
+public class G1780{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
       PrintWriter out = new PrintWriter(System.out);
       
+      int n = Integer.parseInt(f.readLine());
+      
       String s = f.readLine();
-      int n = s.length();
       s += '$';
       
       int[] suffixarray = make_suffix_array(s);
       
       int[] lcp = make_lcp(s,suffixarray);
       
-      StringJoiner sj = new StringJoiner(" ");
-      for(int k = 0; k <= n; k++){
-         sj.add("" + suffixarray[k]);
-      }
-      out.println(sj.toString());
-      sj = new StringJoiner(" ");
+      ArrayList<ArrayList<Integer>> alist = new ArrayList<ArrayList<Integer>>(n+1);
+      for(int k = 0; k <= n; k++) alist.add(new ArrayList<Integer>());
+      
       for(int k = 0; k < n; k++){
-         sj.add("" + lcp[k]);
+         alist.get(lcp[k]).add(k);
       }
-      out.println(sj.toString());
+      
+      //ranges
+      int[] endofstart = new int[n];
+      int[] startofend = new int[n];
+      Arrays.fill(endofstart,-1);
+      Arrays.fill(startofend,-1);
+      long[] sizefreqs = new long[n+1];
+      
+      long answer = (long)n;
+      
+      for(int k = n; k >= 2; k--){
+         for(int i : alist.get(k)){
+            //add i to range
+            //can merge left and right
+            if(i > 0 && startofend[i-1] != -1 && i < n-1 && endofstart[i+1] != -1){
+               sizefreqs[i-1-startofend[i-1]+1]--;
+               sizefreqs[endofstart[i+1]-(i+1)+1]--;
+               
+               endofstart[startofend[i-1]] = endofstart[i+1];
+               startofend[endofstart[i+1]] = startofend[i-1];
+               sizefreqs[endofstart[i+1]-startofend[i-1]+1]++;
+               
+               startofend[i-1] = -1;
+               endofstart[i+1] = -1;
+            } else if(i > 0 && startofend[i-1] != -1){
+               //can merge left
+               sizefreqs[i-1-startofend[i-1]+1]--;
+               
+               endofstart[startofend[i-1]] = i;
+               startofend[i] = startofend[i-1];
+               sizefreqs[i-startofend[i-1]+1]++;
+               
+               startofend[i-1] = -1;
+            } else if(i < n-1 && endofstart[i+1] != -1){
+               //can merge right
+               sizefreqs[endofstart[i+1]-(i+1)+1]--;
+               
+               startofend[endofstart[i+1]] = i;
+               endofstart[i] = endofstart[i+1];
+               sizefreqs[endofstart[i+1]-i+1]++;
+               
+               endofstart[i+1] = -1;
+            } else {
+               //make range by itself
+               startofend[i] = i;
+               endofstart[i] = i;
+               sizefreqs[1]++;
+            }
+            
+         }
+         
+         for(int j = k-1; j <= n; j += k){
+            answer += sizefreqs[j]*(j+1);
+         }
+      }
+      
+      out.println(answer);
       
       
       
@@ -139,6 +193,7 @@ public class suffixarraylcp{
    public static int ctoi(char ch){
       return (int)ch;
    }
+ 
    
       
 }

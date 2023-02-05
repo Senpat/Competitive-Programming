@@ -1,16 +1,18 @@
 //make sure to make new file!
 import java.io.*;
 import java.util.*;
-
-public class suffixarraylcp{
+//to solve codeforces suffix array EDU Step 4 Problem 1
+public class suffixarraylcp_fast{
    
    public static void main(String[] args)throws IOException{
       BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
       PrintWriter out = new PrintWriter(System.out);
       
-      String s = f.readLine();
-      int n = s.length();
-      s += '$';
+      String ss = f.readLine();
+      int n = ss.length();
+      int[] s = new int[n+1];
+      for(int k = 0; k < n; k++) s[k] = ctoi(ss.charAt(k));
+      s[n] = 0;
       
       int[] suffixarray = make_suffix_array(s);
       
@@ -21,6 +23,7 @@ public class suffixarraylcp{
          sj.add("" + suffixarray[k]);
       }
       out.println(sj.toString());
+      
       sj = new StringJoiner(" ");
       for(int k = 0; k < n; k++){
          sj.add("" + lcp[k]);
@@ -33,8 +36,8 @@ public class suffixarraylcp{
       out.close();
    }
    
-   public static int[] make_lcp(String s, int[] suffixarray){
-      int n = s.length();
+   public static int[] make_lcp(int[] s, int[] suffixarray){
+      int n = s.length;
       
       int[] pos = new int[n];
       for(int k = 0; k < n; k++){
@@ -50,7 +53,7 @@ public class suffixarraylcp{
          }
          
          int j = suffixarray[pos[k]+1];
-         while(k+x < n && j+x < n && s.charAt(k+x) == s.charAt(j+x)){
+         while(k+x < n && j+x < n && s[k+x] == s[j+x]){
             x++;
          }
          lcp[pos[k]] = x;
@@ -64,26 +67,40 @@ public class suffixarraylcp{
    
    
    //https://cp-algorithms.com/string/suffix-array.html#on-log-n-approach
-   public static int[] make_suffix_array(String s){
-      int n = s.length();
-      int alphabet = 256;
+   //with improvements by danny https://codeforces.com/contest/1780/submission/190686802
+   //faster on large N
+   public static int[] make_suffix_array(int[] s){
+      int n = s.length;
+      int alphabet = 1 << 20;
       int[] p = new int[n];
       int[] c = new int[2*n];
-      int[] cnt = new int[Math.max(alphabet,n)];
+      int[] cnt = new int[alphabet];
+      
+      int[] initial = new int[n];
+      if(n < 5) initial = s;
+      else{
+         initial[0] = s[3] + (32 * (s[2] + (32 * (s[1] + 32 * s[0]))));
+         for(int k = 1; k < n-3; k++){
+            initial[k] = s[k+3] + (initial[k-1] << 5) - (s[k-1] << 20);
+         }
+         for(int k = n-3; k < n; k++){
+            initial[k] = (initial[k-1] << 5) - (s[k-1] << 20);
+         }
+      }
       
       for(int k = 0; k < n; k++){
-         cnt[ctoi(s.charAt(k))]++;
+         cnt[initial[k]]++;
       }
       for(int k = 1; k < alphabet; k++){
          cnt[k] += cnt[k-1];
       }
       for(int k = 0; k < n; k++){
-         p[--cnt[ctoi(s.charAt(k))]] = k;
+         p[--cnt[initial[k]]] = k;
       }
       c[p[0]] = 0;
       int classes = 1;
       for(int k = 1; k < n; k++){
-         if(s.charAt(p[k]) != s.charAt(p[k-1])){
+         if(initial[p[k]] != initial[p[k-1]]){
             classes++;
          }
          c[p[k]] = classes-1;
@@ -92,7 +109,7 @@ public class suffixarraylcp{
       int[] pn = new int[n];
       int[] cn = new int[2*n];
       
-      for(int h = 0; (1 << h) < n; h++){
+      for(int h = 2; (1 << h) < n; h++){
          for(int k = 0; k < n; k++){
             pn[k] = p[k] - (1 << h);
             if(pn[k] < 0){
@@ -137,7 +154,7 @@ public class suffixarraylcp{
               
    //may need to edit (as well as alphabet variable)
    public static int ctoi(char ch){
-      return (int)ch;
+      return ch-'a'+1;
    }
    
       

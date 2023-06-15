@@ -56,10 +56,10 @@ public class strings{
          z[i] = i >= r ? 0 : Math.min(r - i, z[i - l]);
          while (i + z[i] < s.length && s[i + z[i]] == s[z[i]])
             z[i]++;
-         if (i + z[i] > r)
+         if (i + z[i] > r){
             l = i;
-         r = i + z[i];
-      
+            r = i + z[i];
+         }
       }
       
       return z;

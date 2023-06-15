@@ -50,7 +50,9 @@ public class P1A{
       out.close();
    }
    
-   
+   //point update, range sum query
+   //to call, v = 0, l = 0, r = n-1
+   //l,r and ql,qr are inclusive
    public static class Segtree{
       
       private int n;

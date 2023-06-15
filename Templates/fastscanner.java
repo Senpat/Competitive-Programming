@@ -70,8 +70,8 @@ class FastScanner
     }
  
     public int[] nextInts(int N) {
-        int[] res = new int[N+1];
-        for (int i = 1; i <= N; i++) {
+        int[] res = new int[N];
+        for (int i = 0; i < N; i++) {
             res[i] = (int) nextLong();
         }
         return res;

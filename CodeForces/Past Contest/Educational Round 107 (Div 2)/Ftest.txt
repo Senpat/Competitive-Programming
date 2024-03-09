@@ -1,0 +1,59 @@
+8 1000000000
+a
+aa
+aaa
+aaaa
+aaaaa
+bbb
+bbbb
+bbbbb
+
+8 1000000000
+aa
+aaa
+aaaa
+aaaaa
+bb
+bbb
+bbbb
+bbbbb
+
+8 1000000000
+aaa
+aaaa
+aaaaa
+bbb
+bbbb
+bbbbb
+cccc
+ccccc
+
+8 1000000000
+aaaa
+aaaaa
+bbbb
+bbbbb
+cccc
+ccccc
+dddd
+ddddd
+
+8 805306367
+aaaaa
+bbbbb
+ccccc
+ddddd
+eeeee
+fffff
+ggggg
+hhhhh
+
+8 1000000000
+abcde
+bcdef
+cdefg
+defga
+efgab
+fgabc
+gabcd
+a

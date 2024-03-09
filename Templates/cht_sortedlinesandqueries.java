@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+//For unsorted lines/queries, look at linecontainer.cpp
 //Convex Hull Trick with sorted lines and queries (queries in increasing order and slope of lines in decreasing order)
 //Solution to https://codeforces.com/contest/319/problem/C
 //https://codeforces.com/blog/entry/63823

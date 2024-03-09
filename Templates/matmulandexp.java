@@ -42,9 +42,10 @@ public class matmulandexp{
    }
 
    public static long[][] exp(long[][] base, long power){
-      if(power == 0) 
+      if(power == 0){
          //IDENTITY MATRIX OF THE RIGHT SIZE
          return new long[][]{new long[]{1,0},new long[]{0,1}};                
+      }
       if(power == 1) 
          return base;
       long[][] ans = exp(base,power/2);

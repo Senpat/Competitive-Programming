@@ -78,8 +78,8 @@ class FastScanner
     }
  
     public long[] nextLongs(int N) {
-        long[] res = new long[N+1];
-        for (int i = 1; i <= N; i++) {
+        long[] res = new long[N];
+        for (int i = 0; i < N; i++) {
             res[i] = nextLong();
         }
         return res;
